@@ -4,27 +4,28 @@ import PlayerHealthBar from "./PlayerHealthBar.js";
 import NPCArea from "./NPCArea";
 import PlayerArea from "./PlayerArea";
 import ActionLog from "./ActionLog";
-
-import AttackModel from "../Data Models/AttackModel.js";
+import PostFightBox from "./PostFightBox";
 
 import HomerImg from "../Assets/homer-simpson-decals.jpg";
 import BartImg from "../Assets/barts_butt.png";
-import ItemModel from '../Data Models/ItemModel.js';
 
+import ItemModel from '../Data Models/ItemModel.js';
+import EnemyModel from '../Data Models/EnemyModel.js';
+import AttackModel from "../Data Models/AttackModel.js";
 
 class Game extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
+
             player: {
                 status: "OK",
                 health: 100
             },
-            NPC: {
-                status: "OK",
-                health: 100
-            },
+
+            fightOver: false,
+            NPC: new EnemyModel(),
             playerTurn: true,
             currentAction: "Attack",
             currentSubOption: "",
@@ -46,11 +47,19 @@ class Game extends Component {
         this.passSubOption = this.passSubOption.bind(this);
         this.baseOptionHandler = this.baseOptionHandler.bind(this);
         this.subOptionHandler = this.subOptionHandler.bind(this);
+        this.loadNextScene = this.loadNextScene.bind(this);
     }
 
     // ------------------------------------------------------------------------------------------------
     //change name of state value for AttackModel to AttackModel, same w other models
 
+    initialize() {
+        this.state.NPC.initEnemy(100, "OK", HomerImg, "Look at him go!", 1);
+    }
+
+    componentDidMount() {
+        this.initialize()
+    }
 
     //PASSBACK from sub option button click event, will receive sub label 
     passSubOption(subOpt) {
@@ -80,7 +89,6 @@ class Game extends Component {
             actionLogData: temp
         })
     }
-
 
     //hooked up as selectbox prop passSelection
     //will receive base option label on click
@@ -152,23 +160,24 @@ class Game extends Component {
         }
     }
 
-
     //handler will receive sub label from subopthandler
     newHandleAttack(atkAction) {
         var thisAtkAction = atkAction.toLowerCase();
         console.log("handleAttack( " + atkAction + ")")
         var thisAction = this.state.currentAttacks.getOptions();
-        var newHealthValue = this.state.NPC.health - thisAction[thisAtkAction].value;
+        this.state.NPC.calcDamageTaken(thisAction[thisAtkAction].value);
         this.handleLog(thisAction[thisAtkAction].label + " for ", thisAction[thisAtkAction].value, " Damage")
         this.setState({
-            NPC: {
-                ...this.state.NPC,
-                health: newHealthValue
-            },
             playerTurn: !this.state.playerTurn,
             availableActions: []
         }, () => {
-            setTimeout(() => { this.newHandleNPCTurn() }, 1000);
+            if (this.state.NPC.health !== 0) {
+                setTimeout(() => { this.newHandleNPCTurn() }, 1000);
+            } else {
+                this.setState({
+                    endFight: true
+                })
+            }
         })
     }
 
@@ -213,11 +222,12 @@ class Game extends Component {
 
     newHandlePlayerDamage(type, value) {
         console.log("handlePlayerDamage( " + value + ")")
-        var newHealthValue = this.state.player.health - value;
-        this.handleLog("Took", value, " damage")
+        var valueFromNPC = this.state.NPC.calcDamageDealt();
+        var newHealthValue = this.state.player.health - valueFromNPC;
+        this.handleLog("Took", valueFromNPC, " damage")
         this.setState({
             player: {
-                ...this.state.NPC,
+                ...this.state.player,
                 health: newHealthValue
             },
             playerTurn: !this.state.playerTurn,
@@ -228,15 +238,44 @@ class Game extends Component {
         })
     }
 
+    endFight() {
+        if (!this.state.endFight) {
+            return <NPCArea
+                npcImage={HomerImg}
+                health={this.state.NPC.health}
+                status={this.state.NPC.status}
+                descript={this.state.NPC.description}
+                currentEnemy={this.state.NPC}
+            />
+        } else {
+            return <PostFightBox
+                loadNextScene={this.loadNextScene}
+            />
+        }
+    }
+
+    loadNextScene() {
+        this.initialize()
+        this.setState({
+            endFight: false,
+            playerTurn: true
+        })
+    }
+
     render() {
+        // this.initialize();
+        const enemyArea = this.endFight();
         return (
             <div style={{ display: "grid", margin: "50px" }}>
                 <div style={{ height: "50vh" }}>
-                    <NPCArea
+                    {/* <NPCArea
                         npcImage={HomerImg}
                         health={this.state.NPC.health}
                         status={this.state.NPC.status}
-                    />
+                        descript={this.state.NPC.description}
+                        currentEnemy={this.state.NPC}
+                    /> */}
+                    {enemyArea}
                     <PlayerArea
                         playerImage={BartImg}
                         health={this.state.player.health}
