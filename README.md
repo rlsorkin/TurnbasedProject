@@ -7,3 +7,8 @@ Attack selection, health, damage, player turn and npc turn implemented only
 
 # Next
 Brainstorming where to go from here, next up were going to implement some wrinkles into the combat.
+
+# 0.02
+Win state has been added
+Enemy class has been half implemented
+Created PostFightBox component
