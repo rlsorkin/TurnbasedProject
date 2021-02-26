@@ -1,0 +1,25 @@
+button:hover:before {
+    content: url('../glovecursor2.png');
+    position:absolute;
+    left: 180px
+}
+
+.progress-bar{
+    position: relative;
+    height: 20px;
+    width: 350px;
+    border-radius: 50px;
+    border: 1px solid #333;
+
+}
+
+.status-container{
+    margin-left: 200px;
+}
+
+.filler{
+    background: #48a51d;
+    height: 100%;
+    border-radius: inherit;
+    transition: width .2s ease-in;
+}
