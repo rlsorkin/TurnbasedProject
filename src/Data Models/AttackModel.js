@@ -8,7 +8,7 @@ export default class AttackModel {
         kick: { label: "Kick", value: 2 },
         punch: { label: "Punch", value: 4 },
         flail: { label: "Flail", value: 6 },
-        crash: { label: "Crash", value: 50 }
+        crash: { label: "Crash", value: 10 }
     }
 
     advanceAttackOpts = [

@@ -14,7 +14,7 @@ class MainMenu extends Component {
         return (
             <div style={{ height: "inherit", textAlign: "center" }}>
                 <p>This is a Main Menu! Pretty cool right?</p>
-                <button onClick={this.props.startGame}>Start</button>
+                <button onClick={this.props.switchView}>Start</button>
                 {/* <button >Something else</button> */}
             </div>
         );
