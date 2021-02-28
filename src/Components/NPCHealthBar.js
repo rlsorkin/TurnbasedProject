@@ -18,10 +18,10 @@ class NPCHealthBar extends Component {
 
         return (
             <div className="status-container">
-                <div className="progress-bar">
+                <div className="progress-bar" style={{marginLeft: "40%"}}>
                     <Filler />
                 </div>
-                <p>Status: {this.props.status}</p>
+                <p style={{textAlign: "end"}}>Status: {this.props.status}</p>
             </div>
         );
     }

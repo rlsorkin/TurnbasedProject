@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Col, Row } from "react-bootstrap"
 import SelectBox from "./SelectBox.js";
 import PlayerHealthBar from "./PlayerHealthBar.js";
 import NPCArea from "./NPCArea";
@@ -7,8 +8,8 @@ import ActionLog from "./ActionLog";
 import PostFightBox from "./PostFightBox";
 import MainMenu from "./MainMenu";
 
-import HomerImg from "../Assets/homer-simpson-decals.jpg";
-import BartImg from "../Assets/barts_butt.png";
+import HomerImg from "../Assets/homer-simpson-decals_edited_200w.png";
+import BartImg from "../Assets/barts_butt_resized_200w.png";
 
 import ItemModel from '../Data Models/ItemModel.js';
 import EnemyModel from '../Data Models/EnemyModel.js';
@@ -31,7 +32,7 @@ class Game extends Component {
             playerTurn: true,
             currentAction: "Attack",
             currentSubOption: "",
-            actionLogData: [],
+            actionLogData: ["Let Mortal Combat Commence"],
             actionDisplay: "",
             availableActions: [],
             currentAttacks: new AttackModel(),
@@ -287,37 +288,62 @@ class Game extends Component {
 
         return (
 
-            <div style={{ display: "grid", margin: "50px" }}>
 
-                <div style={{ height: "50vh" }}>
-                    {/* <NPCArea
+            //Trying out Row and Cols, cutting out styled divs
+
+            <div style={{margin: "50px"}}>
+
+                {/* <div style={{ height: "50vh" }}> */}
+                {/* <NPCArea
                         npcImage={HomerImg}
                         health={this.state.NPC.health}
                         status={this.state.NPC.status}
                         descript={this.state.NPC.description}
                         currentEnemy={this.state.NPC}
                     /> */}
-                    {enemyArea}
-                    <PlayerArea
-                        playerImage={BartImg}
-                        health={this.state.player.health}
-                        status={this.state.player.status}
-                    />
-                </div>
 
-                <div>
-                    <p style={{ textAlign: "center", minHeight: "20px", marginTop: "60px" }}>{this.state.actionDisplay}</p>
-                    <SelectBox
-                        passSelection={this.baseOptionHandler}
-                        availActions={this.state.availableActions}
-                        playerTurn={this.state.playerTurn}
-                        passSubOption={this.subOptionHandler}
-                        baseOptions={this.state.baseOptions}
-                    />
-                    <ActionLog
-                        logItems={this.state.actionLogData}
-                    />
-                </div>
+
+                <Row className="game-rows">
+                    <Col className="game-cols">
+                        {/* Stats panel is customized to enemy area, need to genericize */}
+                        <PlayerArea
+                            playerImage={BartImg}
+                            health={this.state.player.health}
+                            status={this.state.player.status}
+                            currentEnemy = {this.state.player}
+                        />
+                    </Col>
+                    <Col className="game-cols">
+                        {enemyArea}
+                    </Col>
+                </Row>
+
+
+                {/* </div> */}
+
+                {/* <div style={{ display: "flex", flexDirection: "column" }}> */}
+                <Row className="action-display-row"> <p style={{ textAlign: "center", minHeight: "20px"}}>{this.state.actionDisplay}</p></Row>
+                {/* <div style={{ display: "flex", flexDirection: "row-reverse", margin: "auto" }}> */}
+
+                <Row className="select-row">
+                    <Col className="select-col">
+                        <SelectBox
+                            passSelection={this.baseOptionHandler}
+                            availActions={this.state.availableActions}
+                            playerTurn={this.state.playerTurn}
+                            passSubOption={this.subOptionHandler}
+                            baseOptions={this.state.baseOptions}
+                        />
+                    </Col>
+                    <Col className="select-col">
+                        <ActionLog
+                            logItems={this.state.actionLogData}
+                        />
+                    </Col>
+                </Row>
+
+                {/* </div>
+                </div> */}
 
             </div>
 

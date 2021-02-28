@@ -4,11 +4,15 @@ export default class PlayerModel {
         this.health = ""
         this.status = ""
         this.level = 1
+        this.str = 1
+        this.agi = 1
+        this.int = 1
+        this.luck = 1
     }
 
 
     initialize(){
-        
+
     }
 
     //takes an action label, fetches values from AttackModel

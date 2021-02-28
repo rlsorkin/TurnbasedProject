@@ -14,7 +14,7 @@ button:hover:before {
 }
 
 .status-container{
-    margin-left: 200px;
+    margin-left: 20px;
 }
 
 .filler{
@@ -22,4 +22,38 @@ button:hover:before {
     height: 100%;
     border-radius: inherit;
     transition: width .2s ease-in;
+}
+
+.game-rows {
+    max-height: 60vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.game-cols {
+    width: 45vw;
+}
+
+.game-cols > div {
+    height: 45vh;
+}
+
+.game-cols > div > img {
+    height: 100%;
+    width: 50%;
+}
+
+.select-row{
+    padding-top: 7vh;
+    align-content: center;
+    justify-content: center;
+    display: flex;
+}
+
+.select-col {
+    max-width: 50vw;
+}
+
+.action-display-row{
+    margin-top: 75px;
 }

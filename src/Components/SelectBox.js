@@ -63,7 +63,7 @@ class SelectBox extends Component {
 
         const selectBoxStyle = {
             borderStyle: "double",
-            margin: "20px 200px",
+            marginLeft: "20px",
             display: "grid",
             gridTemplateColumns: "80px 80px 80px 80px",
             gridTemplateRows: "30px 30px 30px 30px",
@@ -81,16 +81,14 @@ class SelectBox extends Component {
 
         const baseOpts = this.createBaseOptions(this.props.baseOptions);
         const moreOpts = this.createSelectOptions(this.props.availActions);
+
         return (
 
             <div style={selectBoxStyle}>
                 {baseOpts}
-                {/* <button style={selectOptionsStyle, { gridRow: "1/1" }} onClick={e => this.clickAlert(e)}>{this.state.option1}</button>
-                <button style={selectOptionsStyle, { gridRow: "2/2" }} onClick={e => this.clickAlert(e)}>{this.state.option2}</button>
-                <button style={selectOptionsStyle, { gridRow: "3/3" }} onClick={e => this.clickAlert(e)}>{this.state.option3}</button>
-                <button style={selectOptionsStyle, { gridRow: "4/4" }} onClick={e => this.clickAlert(e)}>{this.state.option4}</button> */}
                 <div style={this.props.playerTurn ? { visibility: "visible" } : { visibility: "hidden" }}>{moreOpts}</div>
             </div>
+
         )
     }
 } export default SelectBox;

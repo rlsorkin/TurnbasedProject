@@ -12,3 +12,8 @@ Brainstorming where to go from here, next up were going to implement some wrinkl
 Win state has been added
 Enemy class has been half implemented
 Created PostFightBox component
+
+# 0.03
+Implemented Start Menu and top layer
+Creating PlayerModel and siloing player actions into it
+Created StatsPanel for quick display of object properties
