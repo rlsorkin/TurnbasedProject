@@ -17,3 +17,4 @@ Created PostFightBox component
 Implemented Start Menu and top layer
 Creating PlayerModel and siloing player actions into it
 Created StatsPanel for quick display of object properties
+Migrated most styles to style sheet, some inline left for edge case

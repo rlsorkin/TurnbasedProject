@@ -8,8 +8,8 @@ import ActionLog from "./ActionLog";
 import PostFightBox from "./PostFightBox";
 import MainMenu from "./MainMenu";
 
-import HomerImg from "../Assets/homer-simpson-decals_edited_200w.png";
-import BartImg from "../Assets/barts_butt_resized_200w.png";
+import HomerImg from "../Assets/homer-simpson-decals.jpg";
+import BartImg from "../Assets/barts_butt.png";
 
 import ItemModel from '../Data Models/ItemModel.js';
 import EnemyModel from '../Data Models/EnemyModel.js';
