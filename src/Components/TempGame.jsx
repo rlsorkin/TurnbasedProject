@@ -11,9 +11,7 @@ import MainMenu from "./MainMenu";
 import HomerImg from "../Assets/homer-simpson-decals.jpg";
 import BartImg from "../Assets/barts_butt.png";
 
-import ItemModel from '../Data Models/ItemModel.js';
 import EnemyModel from '../Data Models/EnemyModel.js';
-import AttackModel from "../Data Models/AttackModel.js";
 import PlayerModel from "../Data Models/PlayerModel.js";
 
 class Game extends Component {
@@ -36,26 +34,15 @@ class Game extends Component {
             currentSubOption: "",
             actionLogData: ["Let Mortal Combat Commence"],
             actionDisplay: "",
-            availableActions: [],
-            availableItems: [],
-            currentAttacks: new AttackModel(),
-            currentItems: new ItemModel(),
-            baseOptions: [
-                "Attack",
-                "Items",
-                "Special",
-                "Run"
-            ]
+            currentAttacks: [],
+            currentItems: [],
+            baseActions: []
         }
 
-        // this.newHandlePlayerDamage = this.newHandlePlayerDamage.bind(this);
-        // this.newHandleAttack = this.newHandleAttack.bind(this);
-        // this.passSubOption = this.passSubOption.bind(this);
         this.baseOptionHandler = this.baseOptionHandler.bind(this);
         this.subOptionHandler = this.subOptionHandler.bind(this);
         this.loadNextScene = this.loadNextScene.bind(this);
         this.startGame = this.startGame.bind(this);
-        // this.endTurn = this.endTurn.bind(this);
         this.handleNPCTurn = this.handleNPCTurn.bind(this);
     }
 
@@ -66,37 +53,36 @@ class Game extends Component {
         console.log("Initializing");
         this.state.NPC.initEnemy(100, "OK", HomerImg, "Look at him go!", 10);
         this.state.player.initialize(100, "OK")
-        // this.setState({
-        //     showMenu: true
-        // })
+        this.setState({
+            baseActions: this.state.player.baseOptions,
+            currentAttacks: this.state.player.availableActions,
+            currentItems: this.state.player.availableItems
+        })
     }
 
     componentDidMount() {
         this.initialize()
-        console.log("Mounted and initialized");
     }
 
     //Base Option Handler receives label from selectbox and chooses correct player handler
     baseOptionHandler(selection) {
-        console.log("Clicked on " + selection + " processing in baseOptHandler");
         if (this.state.playerTurn) {
-            if (!this.state.baseOptions.includes(selection)) {
+            if (!this.state.baseActions.includes(selection)) {
                 console.log("not included in baseOpts: " + selection)
             }
             switch (selection) {
                 case 'Attack':
-                    this.state.player.setActions(this.state.currentAttacks.getOptions(selection));
                     this.setState({
                         currentAction: "Attack",
-                        availableActions: this.state.player.availableActions,
+                        currentAttacks: this.state.player.availableActions,
                         actionDisplay: "Attacking"
                     })
                     break;
                 case 'Items':
-                    this.state.player.setItems(this.state.currentItems.getOptions(selection))
                     this.setState({
                         currentAction: "Items",
-                        availableItems: this.state.player.availableItems
+                        currentItems: this.state.player.availableItems,
+                        actionDisplay: "Using item"
                     })
                     break;
                 case 'Special':
@@ -112,9 +98,10 @@ class Game extends Component {
                     })
                     break;
                 default:
-                    // console.log("couldnt find matching action for: " + this.state.currentAction)
+                    console.log("couldnt find matching action for: " + this.state.currentAction)
                     return;
             }
+            console.log("Exiting switch statement now");
         }
     }
 
@@ -122,36 +109,35 @@ class Game extends Component {
     //selectbox now populates its sub options buttons
     //sub option btn dispatches label to sub opt handler
     subOptionHandler(subOpt) {
-        // console.log("fetching value from player model: " + this.state.player.handleAttack(subOpt));
         this.setState({
             currentSubOption: subOpt,
             actionDisplay: subOpt
         })
         switch (this.state.currentAction) {
             case 'Attack':
-                // this.newHandleAttack(subOpt)
                 var dmgVal = this.state.player.handleAttack(subOpt);
-                console.log("Time out, then handleNPCTurn");
+                this.handleLog(dmgVal);
                 this.handleNPCTurn(dmgVal);
-                console.log("Exiting handleNPCTurn");
                 this.setState({
                     actionDisplay: "Your turn",
                     playerTurn: true,
                     availableActions: [],
-                    currentAction: ""
+                    currentAction: "",
+                    currentAttacks: [],
+                    currentItems: []
                 })
-                // this.state.NPC.calcDamageTaken(dmgVal);
-                // console.log("Made it past calcDamage somehow");
                 break;
             case 'Items':
-                // this.handleItem(subOpt)
-                this.state.player.handleItem(subOpt);
+                var tempItem = this.state.player.handleItem(subOpt);
+                this.handleLog(tempItem);
                 this.handleNPCTurn(0)
                 this.setState({
                     actionDisplay: "Your turn",
                     playerTurn: true,
                     availableItems: [],
-                    currentAction: ""
+                    currentAction: "",
+                    currentAttacks: [],
+                    currentItems: []
                 })
                 break;
             case 'Special':
@@ -164,30 +150,6 @@ class Game extends Component {
         }
     }
 
-
-    //this doesnt work this way, I need to write wrapper functions so I can manip state while modifying the models?
-    // endTurn() {
-    //     console.log("Ending turn now");
-    //     var whosTurn = "";
-    //     if(this.state.playerTurn){
-    //         whosTurn = "Enemy turn"
-    //     } else { whosTurn = "Your turn"}
-    //     if (this.state.NPC.health !== 0) {
-    //         this.setState({
-    //             playerTurn: false,
-    //             availableActions: [],
-    //             actionDisplay: whosTurn,
-    //             currentAction: ""
-    //         })
-    //         setTimeout(() => { 
-    //             this.state.player.takeDamage(this.state.NPC.calcDamageDealt());
-    //         }, 1000);
-    //     } else {
-    //         this.setState({
-    //             endFight: true
-    //         })
-    //     }
-
     handleNPCTurn(dmgValue) {
         this.setState({
             playerTurn: false,
@@ -195,8 +157,15 @@ class Game extends Component {
             actionDisplay: "Enemy Turn",
             currentAction: ""
         })
-        this.state.NPC.calcDamageTaken(dmgValue);
-        this.state.player.takeDamage(this.state.NPC.calcDamageDealt());
+        this.state.NPC.calcDamageTaken(dmgValue.value);
+        if (this.state.NPC.health <= 0) {
+            this.setState({
+                endFight: true
+            })
+        }
+        var temp = this.state.NPC.calcDamageDealt()
+        this.handleLog(temp);
+        this.state.player.takeDamage(temp.value);
     }
 
 
@@ -235,6 +204,20 @@ class Game extends Component {
         })
     }
 
+    //log should probably take a log object?
+    handleLog(action) {
+        console.log("Adding to log");
+        var temp = this.state.actionLogData;
+        if (temp.length >= 6) {
+            temp.pop()
+        }
+        var tempMsg = action.descript;
+        temp.unshift(tempMsg)
+        this.setState({
+            actionLogData: temp
+        })
+    }
+
     render() {
         const enemyArea = this.endFight();
         return (
@@ -258,11 +241,11 @@ class Game extends Component {
                     <Col className="select-col">
                         <SelectBox
                             passSelection={this.baseOptionHandler}
-                            availActions={this.state.availableActions}
-                            availItems={this.state.availableItems}
+                            availActions={this.state.currentAttacks}
+                            availItems={this.state.currentItems}
                             playerTurn={this.state.playerTurn}
                             passSubOption={this.subOptionHandler}
-                            baseOptions={this.state.baseOptions}
+                            baseOptions={this.state.player.baseOptions}
                         />
                     </Col>
                     <Col className="select-col">

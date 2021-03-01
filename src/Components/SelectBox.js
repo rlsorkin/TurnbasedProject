@@ -5,11 +5,7 @@ class SelectBox extends Component {
         super(props);
 
         this.state = {
-            option1: "Attack",
-            option2: "Items",
-            option3: "Special",
-            option4: "Run",
-            showing: false,
+            showing: true,
             selectedOption: ""
         }
 
@@ -89,14 +85,12 @@ class SelectBox extends Component {
             padding: "10px",
             justifyContent: "start",
         }
-
-        const selectOptionsStyle = {
-            width: "max-content",
-            minWidth: "65px",
-        }
-
+        
         const baseOpts = this.createBaseOptions(this.props.baseOptions);
-        const moreOpts = this.createSelectOptions(currentSubOptions);
+        var moreOpts = [];
+        if(this.props.playerTurn){
+            moreOpts = this.createSelectOptions(currentSubOptions);
+        }
 
         return (
 

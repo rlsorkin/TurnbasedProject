@@ -27,7 +27,7 @@ class NPCArea extends Component {
                 />
                 <img src={this.state.currentEnemy.baseImage} title={this.state.currentEnemy.description} />
                 <StatsPanel
-                    thisEnemy = {this.props.currentEnemy}
+                    thisEnemy = {this.state.currentEnemy}
                 />
             </div>
         );

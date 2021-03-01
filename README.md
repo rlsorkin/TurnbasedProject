@@ -25,3 +25,9 @@ Refactoring, gonna have to mess this up pretty bad
 Yeah its messed up pretty bad, implemented TempGame component for experimenting
 Stats Panel is commented out in component
 Completely fucked. Transitioning between turns is fucked. Rebuilding.
+I think I unfucked it. Gonna move on after I re implement the log.
+Success? Gonna finish enemy stats panel and then iterate.
+Hell yeah, starting to work again, iterating
+
+# 0.05 
+Implementing turn structure, currently turns are happening instantaneously and it doesnt feel great

@@ -10,7 +10,13 @@ export default class EnemyModel {
         this.description = ""
         this.moveList = []
         this.baseDamage = 1
+        this.mainAttack = ""
     }
+
+    defaultAttackOpts = {
+        swipe: { label: "Swipe", value: 2, descript: "Swipe for 2 dmg" },
+    }
+
 
     initEnemy(health, status, baseImage, description, baseDamage){
         this.health = health;
@@ -18,6 +24,7 @@ export default class EnemyModel {
         this.baseImage = baseImage;
         this.description = description;
         this.baseDamage = baseDamage;
+        this.mainAttack = this.defaultAttackOpts.swipe
     }
 
     calcDamageTaken(value){
@@ -30,7 +37,7 @@ export default class EnemyModel {
     }
 
     calcDamageDealt(){
-        return this.baseDamage
+        return this.mainAttack
     }
 
 }
