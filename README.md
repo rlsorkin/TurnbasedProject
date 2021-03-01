@@ -18,3 +18,10 @@ Implemented Start Menu and top layer
 Creating PlayerModel and siloing player actions into it
 Created StatsPanel for quick display of object properties
 Migrated most styles to style sheet, some inline left for edge case
+
+# 0.04
+Migrating most player actions to the player model
+Refactoring, gonna have to mess this up pretty bad
+Yeah its messed up pretty bad, implemented TempGame component for experimenting
+Stats Panel is commented out in component
+Completely fucked. Transitioning between turns is fucked. Rebuilding.

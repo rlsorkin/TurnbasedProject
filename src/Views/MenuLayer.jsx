@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Game from "../Components/Game.js"
-import MainMenu from "../Components/MainMenu.jsx"
-
+import Game from "../Components/Game.js";
+import MainMenu from "../Components/MainMenu.jsx";
+import TempGame from "../Components/TempGame.jsx";
 class MenuLayer extends Component {
     constructor(props) {
         super(props);
@@ -25,7 +25,7 @@ class MenuLayer extends Component {
                 switchView={this.switchView}
             />
         } else {
-            return <Game
+            return <TempGame
                 switchView={this.switchView}
             />
         }

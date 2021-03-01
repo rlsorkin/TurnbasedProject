@@ -6,7 +6,7 @@ class SelectBox extends Component {
 
         this.state = {
             option1: "Attack",
-            option2: "Item",
+            option2: "Items",
             option3: "Special",
             option4: "Run",
             showing: false,
@@ -14,11 +14,13 @@ class SelectBox extends Component {
         }
 
         this.createSelectOptions = this.createSelectOptions.bind(this);
+        this.subClickAlert = this.subClickAlert.bind(this);
     }
 
 
     //returns label for base option clicked
     clickAlert(e) {
+        console.log("sending base opt click");
         this.setState({
             selectedOption: e.target.innerText
         })
@@ -27,10 +29,17 @@ class SelectBox extends Component {
 
     //returns label of sub option clicked
     subClickAlert(e, baseList){
+        console.log("passing the sub opt click");
+        // console.log("SelectBox subClickAlert for: " + e.target.innerText)
         this.props.passSubOption(e.target.innerText)
     }
 
+    consoleAlert(){
+        // console.log("consoleAlert in Select Box, button clicked")
+    }
+
     createSelectOptions(optionsType) {
+        console.log("Creating sub opt buttons using " + optionsType);
         const selectOptionsStyle = {
             width: "max-content",
             minWidth: "65px",
@@ -43,12 +52,13 @@ class SelectBox extends Component {
                 optArray.push(element);
                 // return <button style={selectOptionsStyle} onClick={e => this.subClickAlert(e)}>{element.label}</button>;
             });
-            // console.log("Select box-createSelectOpts: " + someOptions);
+            // console.log("Select box-createSelectOpts: " + optArray);
             return optArray.map((opt,) => <button style={selectOptionsStyle} title={opt.descript} onClick={e => this.subClickAlert(e)}>{opt.label}</button>);
         }
     }
 
     createBaseOptions(baseOptions){
+        console.log("Creating base opt buttons");
         const selectOptionsStyle = {
             width: "max-content",
             minWidth: "65px",
@@ -61,6 +71,13 @@ class SelectBox extends Component {
 
     render() {
 
+        var currentSubOptions = "";
+        if(this.state.selectedOption === "Attack"){
+            currentSubOptions = this.props.availActions;
+        } else if(this.state.selectedOption === "Items"){
+            currentSubOptions = this.props.availItems;
+        }
+
         const selectBoxStyle = {
             borderStyle: "double",
             marginLeft: "20px",
@@ -71,7 +88,6 @@ class SelectBox extends Component {
             backgroundColor: "#2196F3",
             padding: "10px",
             justifyContent: "start",
-
         }
 
         const selectOptionsStyle = {
@@ -80,7 +96,7 @@ class SelectBox extends Component {
         }
 
         const baseOpts = this.createBaseOptions(this.props.baseOptions);
-        const moreOpts = this.createSelectOptions(this.props.availActions);
+        const moreOpts = this.createSelectOptions(currentSubOptions);
 
         return (
 

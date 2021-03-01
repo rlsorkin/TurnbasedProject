@@ -9,11 +9,11 @@ class StatsPanel extends Component {
     }
 
     renderStats() {
-        if (this.props.thisEnemy) {
-            console.log("trying to render stats")
-            var statsItems = Object.values(this.props.thisEnemy);
-            return statsItems.map((log) => <div>{log}</div>);
-        }
+        // if (this.props.thisEnemy) {
+        //     console.log("trying to render stats")
+        //     var statsItems = Object.values(this.props.thisEnemy);
+        //     return statsItems.map((log) => <div>{log}</div>);
+        // }
     }
 
     render() {

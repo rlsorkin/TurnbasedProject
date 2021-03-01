@@ -21,6 +21,7 @@ export default class EnemyModel {
     }
 
     calcDamageTaken(value){
+        // console.log("Enemy Model Damage take value: " + value);
         if((this.health - value) >= 0){
             this.health = this.health - value
         } else {
