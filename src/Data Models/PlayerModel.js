@@ -62,7 +62,7 @@ export default class PlayerModel {
 
     handleItem(itemAction) {
         var selected = this.availableItems[itemAction.toLowerCase()]
-        if ((this.health + selected.value) >= 100) {
+        if ((this.health + selected.value) > 100) {
             this.health = 100
         } else {
             this.health = this.health + selected.value;

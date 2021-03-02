@@ -20,11 +20,6 @@ class Game extends Component {
 
         this.state = {
 
-            // player: {
-            //     status: "OK",
-            //     health: 100
-            // },
-
             player: new PlayerModel(),
             showMenu: false,
             fightOver: false,
@@ -47,11 +42,10 @@ class Game extends Component {
     }
 
     // ------------------------------------------------------------------------------------------------
-    //change name of state value for AttackModel to AttackModel, same w other models
 
     initialize() {
         console.log("Initializing");
-        this.state.NPC.initEnemy(100, "OK", HomerImg, "Look at him go!", 10);
+        this.state.NPC.initEnemy(100, "OK", HomerImg, "Look at him go!", 10, "Homie", "Big Boy");
         this.state.player.initialize(100, "OK")
         this.setState({
             baseActions: this.state.player.baseOptions,
@@ -101,7 +95,6 @@ class Game extends Component {
                     console.log("couldnt find matching action for: " + this.state.currentAction)
                     return;
             }
-            console.log("Exiting switch statement now");
         }
     }
 
@@ -113,41 +106,45 @@ class Game extends Component {
             currentSubOption: subOpt,
             actionDisplay: subOpt
         })
-        switch (this.state.currentAction) {
-            case 'Attack':
-                var dmgVal = this.state.player.handleAttack(subOpt);
-                this.handleLog(dmgVal);
-                this.handleNPCTurn(dmgVal);
-                this.setState({
-                    actionDisplay: "Your turn",
-                    playerTurn: true,
-                    availableActions: [],
-                    currentAction: "",
-                    currentAttacks: [],
-                    currentItems: []
-                })
-                break;
-            case 'Items':
-                var tempItem = this.state.player.handleItem(subOpt);
-                this.handleLog(tempItem);
-                this.handleNPCTurn(0)
-                this.setState({
-                    actionDisplay: "Your turn",
-                    playerTurn: true,
-                    availableItems: [],
-                    currentAction: "",
-                    currentAttacks: [],
-                    currentItems: []
-                })
-                break;
-            case 'Special':
-                break;
-            case 'Run':
-                break;
-            default:
-                console.log("couldnt find matching action for: " + subOpt)
-                return;
-        }
+        setTimeout(() => {
+            switch (this.state.currentAction) {
+                case 'Attack':
+                    var dmgVal = this.state.player.handleAttack(subOpt);
+                    this.handleLog(dmgVal);
+                    this.handleNPCTurn(dmgVal);
+                    setTimeout(() => {
+                        this.setState({
+                            actionDisplay: "Your turn",
+                            playerTurn: true,
+                            availableActions: [],
+                            currentAction: "",
+                            currentAttacks: [],
+                            currentItems: []
+                        })
+                    }, 1500)
+                    break;
+                case 'Items':
+                    var tempItem = this.state.player.handleItem(subOpt);
+                    this.handleLog(tempItem);
+                    this.handleNPCTurn()
+                    this.setState({
+                        actionDisplay: "Your turn",
+                        playerTurn: true,
+                        availableItems: [],
+                        currentAction: "",
+                        currentAttacks: [],
+                        currentItems: []
+                    })
+                    break;
+                case 'Special':
+                    break;
+                case 'Run':
+                    break;
+                default:
+                    console.log("couldnt find matching action for: " + subOpt)
+                    return;
+            }
+        }, 1000);
     }
 
     handleNPCTurn(dmgValue) {
@@ -157,15 +154,22 @@ class Game extends Component {
             actionDisplay: "Enemy Turn",
             currentAction: ""
         })
-        this.state.NPC.calcDamageTaken(dmgValue.value);
+        if (dmgValue) {
+            this.state.NPC.calcDamageTaken(dmgValue.value);
+        }
         if (this.state.NPC.health <= 0) {
             this.setState({
                 endFight: true
             })
         }
-        var temp = this.state.NPC.calcDamageDealt()
-        this.handleLog(temp);
-        this.state.player.takeDamage(temp.value);
+        setTimeout(() => {
+            var temp = this.state.NPC.calcDamageDealt()
+            this.handleLog(temp);
+            this.state.player.takeDamage(temp.value);
+        }, 1000)
+        // var temp = this.state.NPC.calcDamageDealt()
+        // this.handleLog(temp);
+        // this.state.player.takeDamage(temp.value);
     }
 
 

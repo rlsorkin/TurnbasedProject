@@ -31,3 +31,5 @@ Hell yeah, starting to work again, iterating
 
 # 0.05 
 Implementing turn structure, currently turns are happening instantaneously and it doesnt feel great
+setTimeout in a few places, should be standardized though
+Need to separate npc functions out to make turn timing easier

@@ -18,18 +18,20 @@ export default class EnemyModel {
     }
 
 
-    initEnemy(health, status, baseImage, description, baseDamage){
+    initEnemy(health, status, baseImage, description, baseDamage, name, type){
         this.health = health;
         this.status = status;
         this.baseImage = baseImage;
         this.description = description;
         this.baseDamage = baseDamage;
-        this.mainAttack = this.defaultAttackOpts.swipe
+        this.mainAttack = this.defaultAttackOpts.swipe;
+        this.name = name;
+        this.type = type;
     }
 
     calcDamageTaken(value){
-        // console.log("Enemy Model Damage take value: " + value);
-        if((this.health - value) >= 0){
+        console.log("Enemy Model Damage take value: " + value);
+        if((this.health - value) > 0){
             this.health = this.health - value
         } else {
             this.health = 0
