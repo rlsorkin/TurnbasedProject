@@ -7,10 +7,12 @@ class MenuLayer extends Component {
         super(props);
 
         this.state = {
-            showMenu: true
+            showMenu: true,
+            selectedChar: ""
         }
 
         this.switchView = this.switchView.bind(this);
+        this.setCharacter = this.setCharacter.bind(this);
     }
 
     switchView() {
@@ -23,13 +25,23 @@ class MenuLayer extends Component {
         if (this.state.showMenu) {
             return <MainMenu
                 switchView={this.switchView}
+                passSelected = {this.setCharacter}
             />
         } else {
             return <TempGame
                 switchView={this.switchView}
+                selectedChar = {this.state.selectedChar}
             />
         }
     }
+
+    setCharacter(selected){
+        this.setState({
+            selectedChar: selected
+        })
+    }
+
+
 
     render() {
         return (

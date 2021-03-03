@@ -16,7 +16,6 @@ class SelectBox extends Component {
 
     //returns label for base option clicked
     clickAlert(e) {
-        console.log("sending base opt click");
         this.setState({
             selectedOption: e.target.innerText
         })
@@ -25,17 +24,13 @@ class SelectBox extends Component {
 
     //returns label of sub option clicked
     subClickAlert(e, baseList){
-        console.log("passing the sub opt click");
-        // console.log("SelectBox subClickAlert for: " + e.target.innerText)
         this.props.passSubOption(e.target.innerText)
     }
 
     consoleAlert(){
-        // console.log("consoleAlert in Select Box, button clicked")
     }
 
     createSelectOptions(optionsType) {
-        console.log("Creating sub opt buttons using " + optionsType);
         const selectOptionsStyle = {
             width: "max-content",
             minWidth: "65px",
@@ -44,17 +39,14 @@ class SelectBox extends Component {
             const someOptions = Object.values(optionsType);
             var optArray = [];
             someOptions.forEach(element => {
-                // console.log(element.label);
                 optArray.push(element);
                 // return <button style={selectOptionsStyle} onClick={e => this.subClickAlert(e)}>{element.label}</button>;
             });
-            // console.log("Select box-createSelectOpts: " + optArray);
             return optArray.map((opt,) => <button style={selectOptionsStyle} title={opt.descript} onClick={e => this.subClickAlert(e)}>{opt.label}</button>);
         }
     }
 
     createBaseOptions(baseOptions){
-        console.log("Creating base opt buttons");
         const selectOptionsStyle = {
             width: "max-content",
             minWidth: "65px",
@@ -68,9 +60,9 @@ class SelectBox extends Component {
     render() {
 
         var currentSubOptions = "";
-        if(this.state.selectedOption === "Attack"){
+        if(this.state.selectedOption === this.props.baseOptions[0]){
             currentSubOptions = this.props.availActions;
-        } else if(this.state.selectedOption === "Items"){
+        } else if(this.state.selectedOption === this.props.baseOptions[1]){
             currentSubOptions = this.props.availItems;
         }
 

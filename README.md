@@ -34,3 +34,12 @@ Implementing turn structure, currently turns are happening instantaneously and i
 setTimeout in a few places, should be standardized though
 Need to separate npc functions out to make turn timing easier
 placed 0.04 diags in folder, will update after next push
+implementing json loading, will create dynamic character selection and items/actions
+not critical but remember to fix health bars to adjust for different max health values
+Hell yes, we got:
+Main menu with character select, 
+dynamic stats loading, 
+dynamic move list and item list,
+everything is mostly neatly divided up, time to iterate
+
+# 0.06

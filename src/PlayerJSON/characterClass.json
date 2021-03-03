@@ -1,0 +1,43 @@
+{
+    "fighter": {
+        "name": "Hedgehog",
+        "class": "fighter",
+        "health": 100,
+        "status": "Ok",
+        "level": 1,
+        "str": 1,
+        "agi": 1,
+        "int": 1,
+        "luck": 1,
+        "availableActions": [],
+        "availableItems": [],
+        "maxHealth": 100,
+        "baseOptions": [
+            "Attack",
+            "Items",
+            "Special",
+            "Run"
+        ]
+    },
+
+    "mage": {
+        "name": "wild one",
+        "class": "mage",
+        "health": 75,
+        "status": "Ok",
+        "level": 1,
+        "str": 1,
+        "agi": 1,
+        "int": 2,
+        "luck": 3,
+        "availableActions": [],
+        "availableItems": [],
+        "maxHealth": 100,
+        "baseOptions": [
+            "Summon",
+            "Items",
+            "Cast",
+            "Flee"
+        ]
+    }
+}

@@ -14,6 +14,10 @@ import BartImg from "../Assets/barts_butt.png";
 import EnemyModel from '../Data Models/EnemyModel.js';
 import PlayerModel from "../Data Models/PlayerModel.js";
 
+import CharacterClass from "../PlayerJSON/characterClass.json";
+import PlayerMoves from "../PlayerJSON/playerMoves.json";
+import PlayerItems from "../PlayerJSON/playerItems.json";
+
 class Game extends Component {
     constructor(props) {
         super(props);
@@ -31,7 +35,8 @@ class Game extends Component {
             actionDisplay: "",
             currentAttacks: [],
             currentItems: [],
-            baseActions: []
+            baseActions: [],
+            moveBank: PlayerMoves
         }
 
         this.baseOptionHandler = this.baseOptionHandler.bind(this);
@@ -45,13 +50,17 @@ class Game extends Component {
 
     initialize() {
         console.log("Initializing");
+        console.log("Loading moves from: " + PlayerMoves)
         this.state.NPC.initEnemy(100, "OK", HomerImg, "Look at him go!", 10, "Homie", "Big Boy");
-        this.state.player.initialize(100, "OK")
-        this.setState({
-            baseActions: this.state.player.baseOptions,
-            currentAttacks: this.state.player.availableActions,
-            currentItems: this.state.player.availableItems
-        })
+        Object.assign(this.state.player, CharacterClass[this.props.selectedChar])
+        this.state.player.initialize(PlayerMoves[this.state.player.class]["defaultAttackOpts"], PlayerItems[this.state.player.class]["defaultItemOpts"])
+        if (this.state.player.availableActions) {
+            this.setState({
+                baseActions: this.state.player.baseOptions,
+                currentAttacks: this.state.player.availableActions,
+                currentItems: this.state.player.availableItems
+            })
+        }
     }
 
     componentDidMount() {
@@ -60,34 +69,38 @@ class Game extends Component {
 
     //Base Option Handler receives label from selectbox and chooses correct player handler
     baseOptionHandler(selection) {
+        if (!this.state.player.baseOptions) {
+            console.log("Base options weren't found in baseOptionHandler")
+            return
+        }
         if (this.state.playerTurn) {
             if (!this.state.baseActions.includes(selection)) {
                 console.log("not included in baseOpts: " + selection)
             }
             switch (selection) {
-                case 'Attack':
+                case this.state.player.baseOptions[0]:
                     this.setState({
-                        currentAction: "Attack",
+                        currentAction: this.state.player.baseOptions[0],
                         currentAttacks: this.state.player.availableActions,
                         actionDisplay: "Attacking"
                     })
                     break;
-                case 'Items':
+                case this.state.player.baseOptions[1]:
                     this.setState({
-                        currentAction: "Items",
+                        currentAction: this.state.player.baseOptions[1],
                         currentItems: this.state.player.availableItems,
                         actionDisplay: "Using item"
                     })
                     break;
-                case 'Special':
+                case this.state.player.baseOptions[2]:
                     this.setState({
-                        currentAction: "Special",
+                        currentAction: this.state.player.baseOptions[2],
                         // availableActions: this.state.currentItems.getOptions(selection)
                     })
                     break;
-                case 'Run':
+                case this.state.player.baseOptions[3]:
                     this.setState({
-                        currentAction: "Run",
+                        currentAction: this.state.player.baseOptions[3],
                         // availableActions: this.state.currentItems.getOptions(selection)
                     })
                     break;
@@ -108,10 +121,11 @@ class Game extends Component {
         })
         setTimeout(() => {
             switch (this.state.currentAction) {
-                case 'Attack':
+                case this.state.player.baseOptions[0]:
                     var dmgVal = this.state.player.handleAttack(subOpt);
-                    this.handleLog(dmgVal);
+
                     this.handleNPCTurn(dmgVal);
+                    this.handleLog(dmgVal);
                     setTimeout(() => {
                         this.setState({
                             actionDisplay: "Your turn",
@@ -123,7 +137,7 @@ class Game extends Component {
                         })
                     }, 1500)
                     break;
-                case 'Items':
+                case this.state.player.baseOptions[1]:
                     var tempItem = this.state.player.handleItem(subOpt);
                     this.handleLog(tempItem);
                     this.handleNPCTurn()
@@ -136,9 +150,9 @@ class Game extends Component {
                         currentItems: []
                     })
                     break;
-                case 'Special':
+                case this.state.player.baseOptions[2]:
                     break;
-                case 'Run':
+                case this.state.player.baseOptions[3]:
                     break;
                 default:
                     console.log("couldnt find matching action for: " + subOpt)
@@ -163,18 +177,19 @@ class Game extends Component {
             })
         }
         setTimeout(() => {
+            this.setState({
+                //hard coding enemys action display, need to fetch dynamically once enemy has more moves
+                actionDisplay: this.state.NPC.defaultAttackOpts.swipe.label
+            })
+            //Remember the order, always log after the damage, so it seems in sync
             var temp = this.state.NPC.calcDamageDealt()
-            this.handleLog(temp);
             this.state.player.takeDamage(temp.value);
+            this.handleLog(temp);
         }, 1000)
-        // var temp = this.state.NPC.calcDamageDealt()
-        // this.handleLog(temp);
-        // this.state.player.takeDamage(temp.value);
     }
 
 
     endFight() {
-        console.log("Ending fight?");
         if (!this.state.endFight) {
             return <NPCArea
                 npcImage={HomerImg}
@@ -191,7 +206,6 @@ class Game extends Component {
     }
 
     loadNextScene() {
-        console.log("Loading next scene");
         this.initialize()
         this.setState({
             endFight: false,
@@ -210,7 +224,6 @@ class Game extends Component {
 
     //log should probably take a log object?
     handleLog(action) {
-        console.log("Adding to log");
         var temp = this.state.actionLogData;
         if (temp.length >= 6) {
             temp.pop()
