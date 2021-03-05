@@ -1,0 +1,54 @@
+{
+    "brute": {
+        "name": "brute",
+        "type": "fighter",
+        "health": 100,
+        "status": "Ok",
+        "armor": "",
+        "armorType": "",
+        "baseImage": "",
+        "description": "",
+        "level": 1,
+        "str": 1,
+        "agi": 1,
+        "int": 1,
+        "luck": 1,
+        "moveList": {
+            "kick": {
+                "label": "Kick",
+                "value": 2,
+                "descript": "Enemy Kicks for 2 dmg"
+            },
+            "punch": {
+                "label": "Punch",
+                "value": 4,
+                "descript": "Enemy Punches for 4 dmg"
+            }
+        }
+    },
+    "wretch": {
+        "name": "wretch",
+        "class": "mage",
+        "health": 75,
+        "status": "Ok",
+        "level": 1,
+        "str": 1,
+        "agi": 1,
+        "int": 2,
+        "luck": 3,
+        "moveList": [
+            {
+                "fireball": {
+                    "label": "Fireball",
+                    "value": 3,
+                    "descript": "Fireball for 3 damage"
+                },
+                "iceball": {
+                    "label": "Iceball",
+                    "value": 5,
+                    "descript": "Iceball for 5 damage"
+                }
+            }
+        ]
+    }
+}

@@ -47,11 +47,17 @@ class Game extends Component {
     }
 
     // ------------------------------------------------------------------------------------------------
+    // List of props this component receives from MenuLayer:
+    // switchView={this.switchView} toggle showing game or menu component
+    // selectedChar = {this.state.selectedChar} passes down character string from select menu
+
 
     initialize() {
         console.log("Initializing");
         console.log("Loading moves from: " + PlayerMoves)
-        this.state.NPC.initEnemy(100, "OK", HomerImg, "Look at him go!", 10, "Homie", "Big Boy");
+        // old initializer, initializing inside object now
+        // this.state.NPC.initEnemy(100, "OK", HomerImg, "Look at him go!", 10, "Homie", "Big Boy");
+        this.state.NPC.initEnemy("brute", HomerImg)
         Object.assign(this.state.player, CharacterClass[this.props.selectedChar])
         this.state.player.initialize(PlayerMoves[this.state.player.class]["defaultAttackOpts"], PlayerItems[this.state.player.class]["defaultItemOpts"])
         if (this.state.player.availableActions) {
@@ -179,7 +185,7 @@ class Game extends Component {
         setTimeout(() => {
             this.setState({
                 //hard coding enemys action display, need to fetch dynamically once enemy has more moves
-                actionDisplay: this.state.NPC.defaultAttackOpts.swipe.label
+                actionDisplay: this.state.NPC.moveList["kick"].label
             })
             //Remember the order, always log after the damage, so it seems in sync
             var temp = this.state.NPC.calcDamageDealt()

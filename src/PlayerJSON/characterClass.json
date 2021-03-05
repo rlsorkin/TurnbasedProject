@@ -5,8 +5,8 @@
         "health": 100,
         "status": "Ok",
         "level": 1,
-        "str": 1,
-        "agi": 1,
+        "str": 3,
+        "agi": 2,
         "int": 1,
         "luck": 1,
         "availableActions": [],
@@ -21,7 +21,7 @@
     },
 
     "mage": {
-        "name": "wild one",
+        "name": "Wild One",
         "class": "mage",
         "health": 75,
         "status": "Ok",

@@ -29,7 +29,7 @@
             "fireball": {
                 "label": "Fireball",
                 "value": 3,
-                "descript": "Fireball for 5 damage"
+                "descript": "Fireball for 3 damage"
             },
             "iceball": {
                 "label": "Iceball",
@@ -39,12 +39,12 @@
             "thunderball": {
                 "label": "Thunderball",
                 "value": 7,
-                "descript": "thunderball for 5 damage"
+                "descript": "thunderball for 7 damage"
             },
             "magicball": {
                 "label": "Magicball",
                 "value": 10,
-                "descript": "Magicball for 5 damage"
+                "descript": "Magicball for 10 damage"
             }
         }
     }

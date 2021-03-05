@@ -30,8 +30,7 @@ Success? Gonna finish enemy stats panel and then iterate.
 Hell yeah, starting to work again, iterating
 
 # 0.05 
-Implementing turn structure, currently turns are happening instantaneously and it doesnt feel great
-setTimeout in a few places, should be standardized though
+Implementing turn structure, currently turns are happening instantaneously and it doesnt feel great setTimeout in a few places, should be standardized though
 Need to separate npc functions out to make turn timing easier
 placed 0.04 diags in folder, will update after next push
 implementing json loading, will create dynamic character selection and items/actions
@@ -43,3 +42,8 @@ dynamic move list and item list,
 everything is mostly neatly divided up, time to iterate
 
 # 0.06
+Adding JSON data for enemies and second enemy type
+initEnemy will now operate internally, initialize by passing a class name
+Passing char class info into main menu, btn hover will now display class stats
+main menu btn click is passing its hard coded id so check that
+
