@@ -181,17 +181,19 @@ class Game extends Component {
             this.setState({
                 endFight: true
             })
+        } else {
+            setTimeout(() => {
+                this.setState({
+                    //hard coding enemys action display, need to fetch dynamically once enemy has more moves
+                    actionDisplay: this.state.NPC.moveList["kick"].label
+                })
+                //Remember the order, always log after the damage, so it seems in sync
+                var temp = this.state.NPC.calcDamageDealt()
+                this.state.player.takeDamage(temp.value);
+                this.handleLog(temp);
+            }, 1000)
+
         }
-        setTimeout(() => {
-            this.setState({
-                //hard coding enemys action display, need to fetch dynamically once enemy has more moves
-                actionDisplay: this.state.NPC.moveList["kick"].label
-            })
-            //Remember the order, always log after the damage, so it seems in sync
-            var temp = this.state.NPC.calcDamageDealt()
-            this.state.player.takeDamage(temp.value);
-            this.handleLog(temp);
-        }, 1000)
     }
 
 
@@ -216,8 +218,11 @@ class Game extends Component {
         this.setState({
             endFight: false,
             playerTurn: true,
-            actionLogData: [],
-            actionDisplay: ""
+            actionLogData: ["Battle on!"],
+            actionDisplay: "",
+            currentAction: "",
+            currentAttacks: "",
+            currentItems: "",
         })
     }
 

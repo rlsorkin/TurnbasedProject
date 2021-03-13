@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Game from "../Components/Game.js";
 import MainMenu from "../Components/MainMenu.jsx";
 import TempGame from "../Components/TempGame.jsx";
 class MenuLayer extends Component {

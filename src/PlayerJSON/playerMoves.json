@@ -39,11 +39,11 @@
             "thunderball": {
                 "label": "Thunderball",
                 "value": 7,
-                "descript": "thunderball for 7 damage"
+                "descript": "Thunderball for 7 damage"
             },
             "magicball": {
                 "label": "Magicball",
-                "value": 10,
+                "value": 50,
                 "descript": "Magicball for 10 damage"
             }
         }

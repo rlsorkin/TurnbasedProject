@@ -47,3 +47,4 @@ initEnemy will now operate internally, initialize by passing a class name
 Passing char class info into main menu, btn hover will now display class stats
 main menu btn click is passing its hard coded id so check that
 
+
