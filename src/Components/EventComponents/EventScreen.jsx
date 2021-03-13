@@ -1,15 +1,27 @@
 import React, { Component } from 'react';
-import CharacterClass from "../PlayerJSON/characterClass.json";
+import EventModel from "../../Data Models/EventModel.js";
 
 class EventScreen extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            eventModel: new EventModel()
+        }
 
+        this.handleChoice = this.handleChoice.bind(this);
+    }
+
+    handleChoice(e){
+        this.props.switchView(e)
     }
 
     render() {
         return (
-            <p></p>
+            <div>
+                <h3>{this.state.eventModel.evText}</h3>
+                <button onClick={e => this.handleChoice(e)}>Choice 1</button>
+                <button onClick={e => this.handleChoice(e)}>Choice A</button>
+            </div>
         );
     }
 } export default EventScreen;

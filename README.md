@@ -47,4 +47,8 @@ initEnemy will now operate internally, initialize by passing a class name
 Passing char class info into main menu, btn hover will now display class stats
 main menu btn click is passing its hard coded id so check that
 
-
+# 0.07
+Introducing Events
+Moving elements around, need to elevate state
+Alright I guess we're gonna go ahead and do a tear down
+Here we go, were gonna move the whole player into the poorly named MenuLayer

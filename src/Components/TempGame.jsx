@@ -58,13 +58,17 @@ class Game extends Component {
         // old initializer, initializing inside object now
         // this.state.NPC.initEnemy(100, "OK", HomerImg, "Look at him go!", 10, "Homie", "Big Boy");
         this.state.NPC.initEnemy("brute", HomerImg)
-        Object.assign(this.state.player, CharacterClass[this.props.selectedChar])
-        this.state.player.initialize(PlayerMoves[this.state.player.class]["defaultAttackOpts"], PlayerItems[this.state.player.class]["defaultItemOpts"])
-        if (this.state.player.availableActions) {
+        if (this.props.shouldInit) {
+            Object.assign(this.props.player, CharacterClass[this.props.selectedChar])
+            this.props.player.initialize(PlayerMoves[this.props.player.class]["defaultAttackOpts"], PlayerItems[this.props.player.class]["defaultItemOpts"])
+        } else {
+            this.props.player.health = this.props.player.maxHealth
+        }
+        if (this.props.player.availableActions) {
             this.setState({
-                baseActions: this.state.player.baseOptions,
-                currentAttacks: this.state.player.availableActions,
-                currentItems: this.state.player.availableItems
+                baseActions: this.props.player.baseOptions,
+                currentAttacks: this.props.player.availableActions,
+                currentItems: this.props.player.availableItems
             })
         }
     }
@@ -75,7 +79,7 @@ class Game extends Component {
 
     //Base Option Handler receives label from selectbox and chooses correct player handler
     baseOptionHandler(selection) {
-        if (!this.state.player.baseOptions) {
+        if (!this.props.player.baseOptions) {
             console.log("Base options weren't found in baseOptionHandler")
             return
         }
@@ -84,29 +88,29 @@ class Game extends Component {
                 console.log("not included in baseOpts: " + selection)
             }
             switch (selection) {
-                case this.state.player.baseOptions[0]:
+                case this.props.player.baseOptions[0]:
                     this.setState({
-                        currentAction: this.state.player.baseOptions[0],
-                        currentAttacks: this.state.player.availableActions,
+                        currentAction: this.props.player.baseOptions[0],
+                        currentAttacks: this.props.player.availableActions,
                         actionDisplay: "Attacking"
                     })
                     break;
-                case this.state.player.baseOptions[1]:
+                case this.props.player.baseOptions[1]:
                     this.setState({
-                        currentAction: this.state.player.baseOptions[1],
-                        currentItems: this.state.player.availableItems,
+                        currentAction: this.props.player.baseOptions[1],
+                        currentItems: this.props.player.availableItems,
                         actionDisplay: "Using item"
                     })
                     break;
-                case this.state.player.baseOptions[2]:
+                case this.props.player.baseOptions[2]:
                     this.setState({
-                        currentAction: this.state.player.baseOptions[2],
+                        currentAction: this.props.player.baseOptions[2],
                         // availableActions: this.state.currentItems.getOptions(selection)
                     })
                     break;
-                case this.state.player.baseOptions[3]:
+                case this.props.player.baseOptions[3]:
                     this.setState({
-                        currentAction: this.state.player.baseOptions[3],
+                        currentAction: this.props.player.baseOptions[3],
                         // availableActions: this.state.currentItems.getOptions(selection)
                     })
                     break;
@@ -127,8 +131,8 @@ class Game extends Component {
         })
         setTimeout(() => {
             switch (this.state.currentAction) {
-                case this.state.player.baseOptions[0]:
-                    var dmgVal = this.state.player.handleAttack(subOpt);
+                case this.props.player.baseOptions[0]:
+                    var dmgVal = this.props.player.handleAttack(subOpt);
 
                     this.handleNPCTurn(dmgVal);
                     this.handleLog(dmgVal);
@@ -143,8 +147,8 @@ class Game extends Component {
                         })
                     }, 1500)
                     break;
-                case this.state.player.baseOptions[1]:
-                    var tempItem = this.state.player.handleItem(subOpt);
+                case this.props.player.baseOptions[1]:
+                    var tempItem = this.props.player.handleItem(subOpt);
                     this.handleLog(tempItem);
                     this.handleNPCTurn()
                     this.setState({
@@ -156,9 +160,9 @@ class Game extends Component {
                         currentItems: []
                     })
                     break;
-                case this.state.player.baseOptions[2]:
+                case this.props.player.baseOptions[2]:
                     break;
-                case this.state.player.baseOptions[3]:
+                case this.props.player.baseOptions[3]:
                     break;
                 default:
                     console.log("couldnt find matching action for: " + subOpt)
@@ -189,7 +193,7 @@ class Game extends Component {
                 })
                 //Remember the order, always log after the damage, so it seems in sync
                 var temp = this.state.NPC.calcDamageDealt()
-                this.state.player.takeDamage(temp.value);
+                this.props.player.takeDamage(temp.value);
                 this.handleLog(temp);
             }, 1000)
 
@@ -215,6 +219,7 @@ class Game extends Component {
 
     loadNextScene() {
         this.initialize()
+
         this.setState({
             endFight: false,
             playerTurn: true,
@@ -255,9 +260,9 @@ class Game extends Component {
                     <Col className="game-cols">
                         <PlayerArea
                             playerImage={BartImg}
-                            health={this.state.player.health}
-                            status={this.state.player.status}
-                            currentEnemy={this.state.player}
+                            health={this.props.player.health}
+                            status={this.props.player.status}
+                            currentEnemy={this.props.player}
                         />
                     </Col>
                     <Col className="game-cols">
@@ -273,7 +278,7 @@ class Game extends Component {
                             availItems={this.state.currentItems}
                             playerTurn={this.state.playerTurn}
                             passSubOption={this.subOptionHandler}
-                            baseOptions={this.state.player.baseOptions}
+                            baseOptions={this.props.player.baseOptions}
                         />
                     </Col>
                     <Col className="select-col">

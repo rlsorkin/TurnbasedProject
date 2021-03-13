@@ -14,7 +14,7 @@ class MainMenu extends Component {
     setCharacter(e) {
         var temp = e.target.id;
         this.props.passSelected(temp);
-        this.props.switchView();
+        this.props.switchView("event");
     }
 
     renderCharClass(char) {
